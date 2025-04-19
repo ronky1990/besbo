@@ -1,18 +1,20 @@
-FROM node:18-alpine
+# Use Node.js LTS (Long Term Support) version
+FROM node:20-slim
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package files from server directory
+COPY ././package.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm install
 
-# Copy the rest of the server code
+# Copy server source code
 COPY . .
 
-# Expose the port the server runs on
+# Expose the port the app runs on
 EXPOSE 5000
 
-# Start the server
+# Command to run the app
 CMD ["node", "index.js"] 

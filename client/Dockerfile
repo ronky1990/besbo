@@ -1,31 +1,20 @@
-# Build stage
-FROM node:18-alpine as build
+# Use Node.js LTS (Long Term Support) version
+FROM node:20-slim
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package files from server directory
+COPY ././package.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
-# Copy the rest of the client code
+# Copy server source code
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Expose the port the app runs on
+EXPOSE 3000
 
-# Production stage
-FROM nginx:alpine
-
-# Copy the build output to replace the default nginx contents
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy custom nginx config if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+# Command to run the app
+CMD ["npm", "start"] 
