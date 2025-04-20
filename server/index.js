@@ -5,11 +5,11 @@ const path = require('path');
 const codeController = require('./controllers/codeController');
 
 const app = express();
-const PORT = process.env.PORT || 5678;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://yourdomain.com'],
+  origin: ['http://localhost:3000', 'http://161.97.139.101:3000'],
   methods: ['GET', 'POST'],
   credentials: true
 }));

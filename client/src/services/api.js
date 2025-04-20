@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://161.97.139.101/api';
 
 export const generateCode = async (prompt, model, apiKey, provider) => {
   try {
