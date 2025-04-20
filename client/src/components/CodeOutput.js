@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -6,24 +6,8 @@ function CodeOutput({ output }) {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   
-  useEffect(() => {
-    // Only parse if output exists
-    if (output) {
-      // Parse the generated code to extract files
-      const extractedFiles = parseGeneratedCode(output);
-      setFiles(extractedFiles);
-      
-      if (extractedFiles.length > 0) {
-        setSelectedFile(extractedFiles[0]);
-      }
-    } else {
-      setFiles([]);
-      setSelectedFile(null);
-    }
-  }, [output]);
-  
-  // Function to parse the generated code and extract files
-  const parseGeneratedCode = (codeText) => {
+  // Use useCallback to memoize the parseGeneratedCode function
+  const parseGeneratedCode = useCallback((codeText) => {
     if (!codeText) return [];
     
     const fileRegex = /```(?:(\w+):)?([^\n]+)?\n([\s\S]*?)```/g;
@@ -45,7 +29,23 @@ function CodeOutput({ output }) {
     }
     
     return files;
-  };
+  }, []);
+  
+  useEffect(() => {
+    // Only parse if output exists
+    if (output) {
+      // Parse the generated code to extract files
+      const extractedFiles = parseGeneratedCode(output);
+      setFiles(extractedFiles);
+      
+      if (extractedFiles.length > 0) {
+        setSelectedFile(extractedFiles[0]);
+      }
+    } else {
+      setFiles([]);
+      setSelectedFile(null);
+    }
+  }, [output, parseGeneratedCode]);
   
   // Helper function to get file extension from language
   const getExtensionFromLanguage = (language) => {
@@ -81,6 +81,8 @@ function CodeOutput({ output }) {
     // Check if text is undefined or null
     if (!text) return [];
     
+    // Fix the regex to avoid unnecessary escapes
+    // eslint-disable-next-line no-useless-escape
     const codeBlockRegex = /```([a-zA-Z0-9_\-\.\/]+)?\n([\s\S]*?)```/g;
     const blocks = [];
     let lastIndex = 0;

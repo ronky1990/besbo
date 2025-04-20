@@ -12,10 +12,10 @@ function Header() {
             <span className="ml-3 text-xl font-bold text-white font-heading">AI Code Generator</span>
           </div>
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-300 hover:text-primary transition-colors">Home</a>
-            <a href="#" className="text-gray-300 hover:text-primary transition-colors">Features</a>
-            <a href="#" className="text-gray-300 hover:text-primary transition-colors">Docs</a>
-            <a href="#" className="text-gray-300 hover:text-primary transition-colors">About</a>
+            <a href="/" className="text-gray-300 hover:text-primary transition-colors">Home</a>
+            <a href="/features" className="text-gray-300 hover:text-primary transition-colors">Features</a>
+            <a href="/docs" className="text-gray-300 hover:text-primary transition-colors">Docs</a>
+            <a href="/about" className="text-gray-300 hover:text-primary transition-colors">About</a>
           </nav>
           <div className="flex items-center">
             <button className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md font-medium transition-colors duration-300">
