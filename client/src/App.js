@@ -38,7 +38,7 @@ function App() {
     
     try {
       console.log('Sending request with:', { prompt, model: selectedModel, provider: selectedProvider });
-      const response = await axios.post('/api/generate', {
+      const response = await axios.post('/generate', {
         prompt,
         model: selectedModel,
         apiKey,
